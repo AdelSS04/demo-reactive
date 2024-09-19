@@ -1,0 +1,7 @@
+export type EvcTypeInput = 'text'
+| 'montant'
+| 'email'
+| 'number'
+| 'tel'
+| 'zipCode'
+| 'url'

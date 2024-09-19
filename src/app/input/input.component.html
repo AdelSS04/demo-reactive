@@ -1,0 +1,57 @@
+<div class="m-2">
+  @if(label){
+    <label [for]="id" class="form-label">
+      {{ label }} @if(labelFormat){ <span class="text-muted"> ({{labelFormat}})</span>}@if(required){
+      <span class="text-danger"> (required)</span>}</label>
+    }
+    @if(!withIcon){
+      <input
+        #input
+        class="form-control"
+        [class.input-validation-error]="hasErrors()"
+        [id]="id"
+        type="text"
+        [value]="visibleValue()"
+        [readOnly]="readonly"
+        [disabled]="formControl?.disabled"
+        [attr.placeholder]="placeholder"
+        [type]="type"
+        (change)="onInputChanged(input.value)"
+        (blur)="blur()"
+      />
+      @if (hasErrors()) { @for(error of errors | keyvalue ; track error.key){
+        <div class="invalid-feedback">
+          yess
+          {{ error.value.message }}
+        </div>
+      } }
+    }
+    @else{
+      <div class="input-group" #inputGroupDiv>
+        <div class="input-group-prepend">
+          <span class="input-group-text">{{withIcon}}</span>
+        </div>
+        <input
+          #input
+          class="form-control"
+          type="text"
+          [class.input-validation-error]="hasErrors()"
+          [id]="id"
+          [value]="visibleValue()"
+          [readOnly]="readonly"
+          [disabled]="disabled"
+          [attr.placeholder]="placeholder"
+          [type]="type"
+          (change)="onInputChanged(input.value)"
+          (blur)="blur()"
+        />
+      </div>
+
+      @if (hasErrors()) { @for(error of errors | keyvalue ; track error.key){
+        <div class="invalid-feedback">
+          {{ error.value.message }}
+        </div>
+      } }
+    }
+</div>
+

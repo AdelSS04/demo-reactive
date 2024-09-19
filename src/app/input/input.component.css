@@ -1,0 +1,35 @@
+.input-group-prepend {
+  display: flex;
+  align-items: center;
+}
+
+.input-group-text {
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-right: 0;
+}
+
+.form-control {
+  border-left: 0;
+}
+
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  display: block;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.text-muted {
+  font-weight: normal;
+  color: #6c757d;
+}
+
+.text-danger {
+  color: #dc3545;
+}
