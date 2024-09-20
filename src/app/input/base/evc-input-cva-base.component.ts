@@ -14,7 +14,7 @@ import {
   ControlValueAccessor,
   NgControl,
 } from '@angular/forms';
-import { EvcVidationErrors } from './helprs';
+import { EvcValidatonErrors } from '../../form-group/validators/evc-validators';
 
 @Component({
   template: '',
@@ -31,10 +31,10 @@ export abstract class EvcInputCvaBaseComponent<T>
     return this._readOnly;
   }
   @Input() public required = true;
-  @Input() public disabled = true;
   // when directive formControl is used instead of formControlName
   @Input() public identifiant?: string;
   @Input() public inputWidth?: string;
+  public disabled = true;
 
   public requiredLabel: string = this.required
     ? `( required )`
@@ -92,9 +92,9 @@ export abstract class EvcInputCvaBaseComponent<T>
     }
   }
 
-  public get errors(): EvcVidationErrors | null {
+  public get errors(): EvcValidatonErrors | null {
     return this.formControl?.touched
-    ? (this.formControl.errors as EvcVidationErrors)
+    ? (this.formControl.errors as EvcValidatonErrors)
     : null;
   }
 

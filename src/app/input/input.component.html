@@ -13,7 +13,7 @@
         type="text"
         [value]="visibleValue()"
         [readOnly]="readonly"
-        [disabled]="formControl?.disabled"
+        [disabled]="disabled"
         [attr.placeholder]="placeholder"
         [type]="type"
         (change)="onInputChanged(input.value)"
@@ -21,7 +21,6 @@
       />
       @if (hasErrors()) { @for(error of errors | keyvalue ; track error.key){
         <div class="invalid-feedback">
-          yess
           {{ error.value.message }}
         </div>
       } }

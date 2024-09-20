@@ -1,7 +1,6 @@
 export type EvcError = {
     message:string;
 }
-
 export type EvcErrorsAvecCle = Prettify<EvcError & {cleErreur:string}>
 
 type Prettify<T> = {

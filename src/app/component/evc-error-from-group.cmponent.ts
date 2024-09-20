@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, Input, Signal, signal } from '@angular/core';
-import { EvcError, EvcErrorsAvecCle } from '../input/evc-erreur';
-import { FgServiceService } from '../services/fg-service.service';
+import { EvcError, EvcErrorsAvecCle } from '../form-group/evc-erreur';
+import { EvcFormGroupService } from '../form-group/services/evc-form-group-service.service';
 
 @Component({
   selector: 'app-error-list',
@@ -49,7 +49,7 @@ import { FgServiceService } from '../services/fg-service.service';
 })
 export class ErrorListComponent {
   errors :Signal<EvcErrorsAvecCle[]> ;
-  groupService = inject(FgServiceService);
+  groupService = inject(EvcFormGroupService);
 
   /**
    *

@@ -9,8 +9,10 @@
     <evc-input label="name" inputWidth="w-25" formControlName="name" />
     <evc-input label="lastName" inputWidth="w-25" formControlName="lastName" [attr.formcontrolname]="'lastName'"/>
     <evc-input label="email" inputWidth="w-25" [required]="false" labelFormat="email@email.com" formControlName="email" />
-    <evc-input label="phoneNumber" inputWidth="w-25" labelFormat="xxx-xxxx-xxxx" formControlName="phoneNumber" />
-    <evc-input label="money" inputWidth="w-25" type="montant" pipeArg="2" formControlName="money" />
+    <evc-input label="phoneNumber" inputWidth="w-25" type="tel" pipeArg="FR" labelFormat="xxx-xxxx-xxxx" formControlName="phoneNumber" />
+    <evc-input label="money" inputWidth="w-25" type="montant" pipeArg="2" formControlName="money" withIcon="$" />
+    <evc-user-address [formGroupParent]="myFormD" [model]="model" />
+
     <button type="submit" (click)="submit()">Submit</button>
   </form>
 

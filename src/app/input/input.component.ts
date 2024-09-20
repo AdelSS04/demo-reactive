@@ -22,10 +22,10 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NgControl } from '@angular/forms';
 
-import { EvcTypeInput } from './evc-type-input';
-import { EvcInputCvaBaseComponent } from './evc-input-cva-base.component';
-import { alignement, EvcAlignementInput, pipes } from './helprs';
+import { EvcTypeInput } from './helpers/evc-type-input';
+import { alignement, EvcAlignementInput, pipes } from './helpers/evc-input-const';
 import { DecimalFormatPipe } from '../pipes/decimalFormatPipe.pipe';
+import { EvcInputCvaBaseComponent } from './base/evc-input-cva-base.component';
 
 @Component({
   standalone: true,
@@ -89,7 +89,9 @@ export class InputComponent
   }
 
   updateVisibleValue(value: string | number | null) {
-const fromatedValue = this.pipe ? this.pipe.transform(value, [this.pipeArg]) : value;
+    const fromatedValue = this.pipe
+      ? this.pipe.transform(value, [this.pipeArg])
+      : value;
 
     this.visibleValue.set(fromatedValue);
   }

@@ -9,7 +9,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FgServiceService } from './services/fg-service.service';
 import {
   FormGroup,
   FormControl,
@@ -18,16 +17,17 @@ import {
   Validators,
   FormBuilder,
 } from '@angular/forms';
-import { EvcApiErrors } from './input/evc-erreur';
+import { EvcApiErrors } from './form-group/evc-erreur';
 import { InputComponent } from './input/input.component';
 import { ErrorListComponent } from './component/evc-error-from-group.cmponent';
 import { AsyncPipe } from '@angular/common';
-import { UserProfileFormGroup } from '../formGroup/userProfile-form-group';
-import {
-  customEmailValidator,
-  customRequiredValidator,
-} from './validators/custom';
+import { UserProfileFormGroup, UserProfileModel } from './formGroup/userProfile-form-group';
 import { DecimalFormatPipe } from './pipes/decimalFormatPipe.pipe';
+import { PhoneFormatPipe } from './pipes/phoneFormat.pipe';
+import { EvcFormGroupService } from './form-group/services/evc-form-group-service.service';
+import { EvcValidators } from './form-group/validators/evc-validators';
+import { AdressComponent } from './component/adress/adress.component';
+import { ZipCodeFormatPipe } from './pipes/zipCodeFormatPipe.pipe';
 
 @Component({
   selector: 'app-root',
@@ -39,45 +39,46 @@ import { DecimalFormatPipe } from './pipes/decimalFormatPipe.pipe';
     InputComponent,
     ErrorListComponent,
     AsyncPipe,
-    DecimalFormatPipe
+    DecimalFormatPipe,
+    AdressComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  providers: [FgServiceService,DecimalFormatPipe],
+  providers: [EvcFormGroupService,DecimalFormatPipe,PhoneFormatPipe,ZipCodeFormatPipe],
 })
 export class AppComponent implements OnInit {
-  groupService = inject(FgServiceService);
+  groupService = inject(EvcFormGroupService);
   destoryRef = inject(DestroyRef);
   apiError = signal<EvcApiErrors[]>([]);
-  myForm!: FormGroup<UserProfileFormGroup>;
   myFormD!: FormGroup<UserProfileFormGroup>;
 
   frm = viewChild.required(FormGroupDirective);
   private fb = inject(FormBuilder);
+
+  model : UserProfileModel ={
+    "name": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phoneNumber": "123-456-7890",
+    "money": "1000",
+    "address": {
+      "country": "Canada",
+      "address": "123 Maple Street",
+      "zipCode": "K1A 0B1",
+      "city": "Ottawa"
+    }
+  }
   ngOnInit(): void {
-    /*this.myForm = this.fb.group<UserProfileFormGroup>({
-      name: this.fb.nonNullable.control('', [customRequiredValidator()]),
-      lastName: this.fb.nonNullable.control('', [customRequiredValidator()]),
-      email: this.fb.nonNullable.control('', [
-        customRequiredValidator(),
-        customEmailValidator(),
-      ]),
-      phoneNumber: this.fb.nonNullable.control('', [customRequiredValidator()]),
-      money: this.fb.nonNullable.control("885", [customRequiredValidator()])
-    });*/
-
-
     this.myFormD = this.fb.group<UserProfileFormGroup>({
-      name: this.fb.nonNullable.control('adel', [customRequiredValidator()]),
-      lastName: this.fb.nonNullable.control('lajil', [customRequiredValidator()]),
-      email: this.fb.nonNullable.control('adelajil96@gmail.com', [
-        customRequiredValidator(),
-        customEmailValidator(),
+      name: this.fb.nonNullable.control(this.model.name ?? "", [EvcValidators.customRequiredValidator()]),
+      lastName: this.fb.nonNullable.control(this.model.lastName ?? "", [EvcValidators.customRequiredValidator()]),
+      email: this.fb.nonNullable.control(this.model.email ?? "", [
+        EvcValidators.customRequiredValidator(),
+        EvcValidators.customEmailValidator(),
       ]),
-      phoneNumber: this.fb.nonNullable.control('5813975561', [customRequiredValidator()]),
-      money: this.fb.nonNullable.control("885", [customRequiredValidator()])
+      phoneNumber: this.fb.nonNullable.control(this.model.phoneNumber ?? "", [EvcValidators.customRequiredValidator()]),
+      money: this.fb.nonNullable.control(this.model.money ?? "", [EvcValidators.customRequiredValidator()])
     });
-    //this.myFormD.disable()
     this.groupService.bind(this.myFormD, this.frm(), this.destoryRef);
   }
   title = 'my-angular-app';
@@ -91,14 +92,13 @@ export class AppComponent implements OnInit {
   submit() {
     var cc = structuredClone(this.myFormD.value)
     console.log(cc)
-    /*var formValid =
-      this.myFormD.invalid &&
-      Array.from(this.groupService.obtenirErreur().values());
-    console.log(this.groupService.obtenirErreur());
-    console.log(this.myFormD.value);
+    if(this.myFormD.invalid &&
+      Array.from(this.groupService.obtenirErreur().values()))
+      console.info("failed")
+
     const erreurApi = [
       { message: 'message', code: 'code', propertyName: 'name' },
     ];
-    this.apiError.set(erreurApi);*/
+    this.apiError.set(erreurApi);
   }
 }

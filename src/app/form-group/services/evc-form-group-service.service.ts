@@ -13,12 +13,12 @@ import {
   FormGroupDirective,
 } from '@angular/forms';
 import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
-import { EvcError, EvcErrorsAvecCle } from '../input/evc-erreur';
+import { EvcError, EvcErrorsAvecCle } from '../evc-erreur';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { IActionFormControl, ObtenirErreur } from './obtenir-erreur';
+import { IActionFormControl, ObtenirErreur } from './helpers/obtenir-erreur';
 
 @Injectable()
-export class FgServiceService {
+export class EvcFormGroupService {
   public get formGroup(): FormGroup {
     return this.formGroupRef;
   }
