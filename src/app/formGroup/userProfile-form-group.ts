@@ -40,4 +40,6 @@ export type UserProfileFormGroup = {
   address?: FormGroup<UserProfileAdressFormGroup> | undefined;
 }
 
-export type UserProfileModel = EvcRecursivePartial<EvcFormModel<UserProfileFormGroup>>
+export type UserProfileAdressModel = Partial<EvcFormModel<UserProfileAdressFormGroup>>
+
+export type UserProfileModel = Partial<EvcFormModel<UserProfileFormGroup>>

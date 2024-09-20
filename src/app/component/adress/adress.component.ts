@@ -20,7 +20,7 @@ import {
   FormBuilder,
 } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
-import { UserProfileAdressFormGroup } from '../../formGroup/userProfile-form-group';
+import { UserProfileAdressFormGroup, UserProfileAdressModel } from '../../formGroup/userProfile-form-group';
 import { FormGroupWithControls } from '../../form-group/helpers/evc-form-group-types';
 import { EvcFormGroupService } from '../../form-group/services/evc-form-group-service.service';
 import { EvcValidators } from '../../form-group/validators/evc-validators';
@@ -46,18 +46,18 @@ import { ErrorListComponent } from '../evc-error-from-group.cmponent';
 })
 export class AdressComponent<TFormGroupParent extends FormGroupWithControls<{ address?: FormGroup<UserProfileAdressFormGroup> | undefined }>,> implements OnInit {
   formGroupParent = input<TFormGroupParent>();
-  model = input.required<any>()
+  model = input.required<UserProfileAdressModel | undefined>()
   myForm!: FormGroup<UserProfileAdressFormGroup>;
   private fb = inject(FormBuilder);
   ngOnInit(): void {
     this.myForm = this.fb.group<UserProfileAdressFormGroup>({
-      country: this.fb.nonNullable.control('Canada', [EvcValidators.customRequiredValidator()]),
-      address: this.fb.nonNullable.control('2305 rue ABC ', [EvcValidators.customRequiredValidator()]),
-      zipCode: this.fb.nonNullable.control('G1L3A4', [
+      country: this.fb.nonNullable.control(this.model()?.country ?? "", [EvcValidators.customRequiredValidator()]),
+      address: this.fb.nonNullable.control(this.model()?.address ?? "", [EvcValidators.customRequiredValidator()]),
+      zipCode: this.fb.nonNullable.control(this.model()?.zipCode ?? "", [
         EvcValidators.customRequiredValidator(),
         EvcValidators.customZipCodeValidator("CA"),
       ]),
-      city: this.fb.nonNullable.control('quebec', [EvcValidators.customRequiredValidator()]),
+      city: this.fb.nonNullable.control(this.model()?.city ?? "", [EvcValidators.customRequiredValidator()]),
     });
     this.formGroupParent()?.setControl("address",this.myForm)
   }
