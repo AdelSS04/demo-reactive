@@ -2,6 +2,7 @@
 
 A comprehensive demonstration of advanced Angular reactive forms patterns and best practices, showcasing enterprise-level form management techniques with TypeScript type safety.
 
+![Build Status](https://github.com/AdelSS04/demo-reactive/workflows/Build%20and%20Test%20Angular%20App/badge.svg)
 ![Angular](https://img.shields.io/badge/Angular-18.2-red)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.5-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)

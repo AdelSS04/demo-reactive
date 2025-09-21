@@ -24,7 +24,6 @@ import { ControlValueAccessor, FormsModule, NgControl } from '@angular/forms';
 
 import { FormInputType } from '../shared/types/form-input-type';
 import { INPUT_ALIGNMENTS, FormInputAlignment, INPUT_PIPES } from '../shared/constants/form-input-constants';
-import { DecimalFormatPipe } from '../pipes/decimalFormatPipe.pipe';
 import { FormInputBaseComponent } from '../shared/components/form-input-base.component';
 
 /**
