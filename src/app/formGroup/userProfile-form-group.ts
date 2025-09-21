@@ -1,10 +1,10 @@
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 
-type EvcRecursivePartial<T> = {
-  [P in keyof T]?: T[P] extends object ? EvcRecursivePartial<T[P]> : T[P];
+type RecursivePartial<T> = {
+  [P in keyof T]?: T[P] extends object ? RecursivePartial<T[P]> : T[P];
 };
 
-type EvcFormModel<T>  = {
+type FormModel<T>  = {
   [K in keyof T]
   : T[K] extends FormControl<infer U>
   ? U
@@ -15,13 +15,13 @@ type EvcFormModel<T>  = {
   : T[K] extends (FormArray<FormControl<infer U>> | undefined)
   ? (Array<U> | undefined)
   : T[K] extends FormArray<FormGroup<infer U>>
-  ? Array<Partial<EvcFormModel<U>>>
+  ? Array<Partial<FormModel<U>>>
   : T[K] extends (FormArray<FormGroup<infer U>> | undefined)
-  ? (Array<Partial<EvcFormModel<U>>> | undefined)
+  ? (Array<Partial<FormModel<U>>> | undefined)
   : T[K] extends FormGroup<infer U>
-  ? Partial<EvcFormModel<U>>
+  ? Partial<FormModel<U>>
   : T[K] extends (FormGroup<infer U> | undefined)
-  ? (Partial<EvcFormModel<U>> | undefined)
+  ? (Partial<FormModel<U>> | undefined)
   : T[K]
 }
 export type UserProfileAdressFormGroup = {
@@ -40,6 +40,6 @@ export type UserProfileFormGroup = {
   address?: FormGroup<UserProfileAdressFormGroup> | undefined;
 }
 
-export type UserProfileAdressModel = Partial<EvcFormModel<UserProfileAdressFormGroup>>
+export type UserProfileAdressModel = Partial<FormModel<UserProfileAdressFormGroup>>
 
-export type UserProfileModel = Partial<EvcFormModel<UserProfileFormGroup>>
+export type UserProfileModel = Partial<FormModel<UserProfileFormGroup>>

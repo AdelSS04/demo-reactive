@@ -1,5 +1,5 @@
 import { Directive, HostListener, Inject } from '@angular/core';
-import { FORM_COMPONENT_TOKEN, FormWithUnsavedChanges } from '../guards/form-out.guard';
+import { FORM_COMPONENT_TOKEN, FormWithUnsavedChanges } from '../guards/unsaved-changes.guard';
 
 /**
  * Directive that prevents the user from accidentally leaving the page

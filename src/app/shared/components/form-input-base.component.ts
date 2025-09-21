@@ -16,6 +16,10 @@ import {
 } from '@angular/forms';
 import { FormValidationErrors } from '../../core/validators/form-validators';
 
+/**
+ * Abstract base component for custom form input controls
+ * Implements ControlValueAccessor pattern for seamless Angular forms integration
+ */
 @Component({
   template: '',
 })
@@ -31,78 +35,80 @@ export abstract class FormInputBaseComponent<T>
     return this._readOnly;
   }
   @Input() public required = true;
-  // when directive formControl is used instead of formControlName
-  @Input() public identifiant?: string;
+  @Input() public identifier?: string;
   @Input() public inputWidth?: string;
-  public disabled = true;
+  public disabled = false;
 
-  public requiredLabel: string = this.required
-    ? `( required )`
-    : `( not required )`;
+  public get requiredLabel(): string {
+    return this.required ? `(required)` : `(optional)`;
+  }
 
   public get id(): string {
     const id =
-      this.identifiant ??
-      this.controlDir.name?.toString() ??
-      new Error('identifiant or formControlName is required');
-    if (id instanceof Error) throw id;
+      this.identifier ??
+      this.controlDir?.name?.toString() ??
+      'form-input';
     return id;
   }
 
-
-
   protected formControl!: AbstractControl | null;
-  private onChangeCallBack!: (value: T) => unknown;
-  private onTouchedCallBack!: () => void;
+  private onChangeCallback!: (value: T) => unknown;
+  private onTouchedCallback!: () => void;
   private _readOnly = false;
   private _touched = false;
   private _errorsPresent = false;
 
   constructor(
-    @Inject(DOCUMENT) document: Document,
-    @Optional() @Self() private controlDir: NgControl,
+    @Inject(DOCUMENT) protected document: Document,
+    @Optional() @Self() protected controlDir: NgControl,
     protected changeDetectorRef: ChangeDetectorRef
   ) {
-    controlDir.valueAccessor = this;
+    if (controlDir) {
+      controlDir.valueAccessor = this;
+    }
   }
 
   public ngOnInit(): void {
-    this.formControl = this.controlDir.control;
+    this.formControl = this.controlDir?.control || null;
   }
 
   ngDoCheck(): void {
-    if (this._touched !== this.formControl!.touched) {
-      this._touched = this.formControl!.touched;
-      this.changeDetectorRef.markForCheck();
-    }
-    const newErrorPresent = this.hasErrors();
-    if (newErrorPresent !== this._errorsPresent) {
-      this._errorsPresent = newErrorPresent;
-      this.changeDetectorRef.markForCheck();
+    if (this.formControl) {
+      if (this._touched !== this.formControl.touched) {
+        this._touched = this.formControl.touched;
+        this.changeDetectorRef.markForCheck();
+      }
+      const newErrorPresent = this.hasErrors();
+      if (newErrorPresent !== this._errorsPresent) {
+        this._errorsPresent = newErrorPresent;
+        this.changeDetectorRef.markForCheck();
+      }
     }
   }
 
   public onTouched() {
-    this.onTouchedCallBack();
+    if (this.onTouchedCallback) {
+      this.onTouchedCallback();
+    }
   }
 
   onChanged(value: T) {
-    if (this.onChangeCallBack) {
-      this.onChangeCallBack(value);
+    if (this.onChangeCallback) {
+      this.onChangeCallback(value);
     }
   }
 
   public get errors(): FormValidationErrors | null {
     return this.formControl?.touched
-    ? (this.formControl.errors as FormValidationErrors)
-    : null;
+      ? (this.formControl.errors as FormValidationErrors)
+      : null;
   }
 
   public hasErrors(): boolean {
-    return (
-      this.formControl!.touched! &&
-      this.formControl!.errors! &&
-      Object.keys(this.formControl!.errors).length > 0
+    return !!(
+      this.formControl?.touched &&
+      this.formControl?.errors &&
+      Object.keys(this.formControl.errors).length > 0
     );
   }
 
@@ -111,11 +117,11 @@ export abstract class FormInputBaseComponent<T>
   }
 
   registerOnChange(fn: (value: T) => void): void {
-    this.onChangeCallBack = fn;
+    this.onChangeCallback = fn;
   }
 
   registerOnTouched(fn: () => void): void {
-    this.onTouchedCallBack = fn;
+    this.onTouchedCallback = fn;
   }
 
   setDisabledState(isDisabled: boolean) {

@@ -21,7 +21,7 @@
       />
       @if (hasErrors()) { @for(error of errors | keyvalue ; track error.key){
         <div class="invalid-feedback">
-          {{ error.value.message }}
+          {{ getErrorMessage(error.value) }}
         </div>
       } }
     }
@@ -48,7 +48,7 @@
 
       @if (hasErrors()) { @for(error of errors | keyvalue ; track error.key){
         <div class="invalid-feedback">
-          {{ error.value.message }}
+          {{ getErrorMessage(error.value) }}
         </div>
       } }
     }

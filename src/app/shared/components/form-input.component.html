@@ -1,0 +1,58 @@
+<div class="form-input-container">
+  @if(label){
+    <label [for]="id" class="form-label">
+      {{ label }}
+      @if(labelFormat){
+        <span class="label-format">({{labelFormat}})</span>
+      }
+      @if(required){
+        <span class="label-required">*</span>
+      }
+    </label>
+  }
+
+  @if(!withIcon){
+    <input
+      #input
+      class="form-control"
+      [class.is-invalid]="hasErrors()"
+      [class.is-valid]="formControl?.valid && formControl?.touched"
+      [id]="id"
+      [value]="visibleValue()"
+      [readOnly]="readonly"
+      [disabled]="disabled"
+      [attr.placeholder]="placeholder"
+      [type]="type"
+      (input)="onInputChanged($any($event.target).value)"
+      (blur)="blur()"
+    />
+  } @else {
+    <div class="input-group" #inputGroupDiv>
+      <span class="input-group-text">{{withIcon}}</span>
+      <input
+        #input
+        class="form-control"
+        [class.is-invalid]="hasErrors()"
+        [class.is-valid]="formControl?.valid && formControl?.touched"
+        [id]="id"
+        [value]="visibleValue()"
+        [readOnly]="readonly"
+        [disabled]="disabled"
+        [attr.placeholder]="placeholder"
+        [type]="type === 'currency' ? 'text' : type"
+        (input)="onInputChanged($any($event.target).value)"
+        (blur)="blur()"
+      />
+    </div>
+  }
+
+  @if (hasErrors()) {
+    <div class="error-messages">
+      @for(error of errors | keyvalue ; track error.key){
+        <div class="invalid-feedback">
+          {{ error.value.message }}
+        </div>
+      }
+    </div>
+  }
+</div>

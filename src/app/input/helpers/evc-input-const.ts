@@ -1,5 +1,5 @@
 import { PipeTransform, Type } from '@angular/core';
-import { EvcError } from '../../form-group/evc-erreur';
+import { FormError } from '../../form-group/form-error-types';
 import { EvcTypeInput } from './evc-type-input';
 import { DecimalPipe } from '@angular/common';
 import { ZipCodeFormatPipe } from '../../pipes/zipCodeFormatPipe.pipe';

@@ -24,16 +24,16 @@ export const FORM_COMPONENT_TOKEN = new InjectionToken<FormWithUnsavedChanges>('
 
 /**
  * Route guard that prevents navigation away from a page when there are unsaved form changes.
- *
+ * 
  * This guard checks if the form is dirty (has unsaved changes) and prompts the user
  * for confirmation before allowing navigation away from the current route.
- *
+ * 
  * @param component - The component implementing FormWithUnsavedChanges interface
  * @param _currentRoute - The current activated route (unused)
  * @param _currentState - The current router state (unused)
  * @param nextState - The target router state for navigation
  * @returns Observable<boolean> - true if navigation is allowed, false otherwise
- *
+ * 
  * @example
  * ```typescript
  * // In your routes configuration

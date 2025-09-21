@@ -1,13 +1,17 @@
 {
-  "name": "my-angular-app",
-  "version": "0.0.0",
+  "name": "angular-reactive-forms-showcase",
+  "version": "1.0.0",
+  "description": "A comprehensive showcase of advanced Angular reactive forms patterns including custom validators, form services, custom input components, and type-safe form handling",
+  "keywords": ["angular", "reactive-forms", "typescript", "validation", "form-management", "custom-validators", "control-value-accessor"],
+  "author": "Adel Lajil",
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:my-angular-app": "node dist/my-angular-app/server/server.mjs"
+    "serve:ssr:angular-reactive-forms-showcase": "node dist/angular-reactive-forms-showcase/server/server.mjs"
   },
   "private": true,
   "dependencies": {

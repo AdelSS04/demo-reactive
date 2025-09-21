@@ -1,50 +1,141 @@
-{{ groupService.formGroupSoumis$ | async }}
-<button (click)="navigateToHome()">Go to Home</button>
-<app-error-list></app-error-list>
-@if(apiError().length > 0){ @for(error of apiError();track error.code){
-<div class="error-message">
-  <strong>{{ error.propertyName }}:</strong> {{ error.message }} (Code:
-  {{ error.code }})
-</div>
-} }
+<div class="form-demo-container">
+  <header class="demo-header">
+    <h1>🎯 Interactive Form Demo</h1>
+    <p>Explore advanced reactive forms patterns with real-time validation and formatting</p>
+    <button (click)="navigateToHome()" class="back-button">← Back to Home</button>
+  </header>
 
-<button (click)="disable()">disable</button>
-<div class="container">
-  <form [formGroup]="form">
-    <label for="myInput">My Input:</label>
-    <br />
-    <evc-input label="name" inputWidth="w-25" formControlName="name" />
-    <evc-input
-      label="lastName"
-      inputWidth="w-25"
-      formControlName="lastName"
-      [attr.formcontrolname]="'lastName'"
-    />
-    <evc-input
-      label="email"
-      inputWidth="w-25"
-      [required]="false"
-      labelFormat="email@email.com"
-      formControlName="email"
-    />
-    <evc-input
-      label="phoneNumber"
-      inputWidth="w-25"
-      type="tel"
-      pipeArg="FR"
-      labelFormat="xxx-xxxx-xxxx"
-      formControlName="phoneNumber"
-    />
-    <evc-input
-      label="money"
-      inputWidth="w-25"
-      type="montant"
-      pipeArg="2"
-      formControlName="money"
-      withIcon="$"
-    />
-    <evc-user-address [formGroupParent]="form" [model]="model.address" />
+  <div class="demo-grid">
+    <!-- Main Form Section -->
+    <section class="form-section">
+      <h2>📝 User Profile Form</h2>
 
-    <button type="submit" (click)="submit()">Submit</button>
-  </form>
+      <!-- Form Status Display -->
+      <div class="status-indicators">
+        <span class="status-badge" [ngClass]="{'active': form.valid}">
+          ✅ Valid: {{ form.valid }}
+        </span>
+        <span class="status-badge" [ngClass]="{'active': form.dirty}">
+          🔄 Dirty: {{ form.dirty }}
+        </span>
+        <span class="status-badge" [ngClass]="{'active': form.touched}">
+          👆 Touched: {{ form.touched }}
+        </span>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button (click)="disable()" class="action-btn">
+          {{ form.disabled ? '🔓 Enable Form' : '🔒 Disable Form' }}
+        </button>
+        <button (click)="resetForm()" class="action-btn secondary">
+          🔄 Reset Form
+        </button>
+      </div>
+
+      <!-- Main Form -->
+      <form [formGroup]="form" class="demo-form">
+        <div class="form-row">
+          <form-input
+            label="First Name"
+            inputWidth="w-100"
+            formControlName="name"
+            placeholder="Enter your first name" />
+        </div>
+
+        <div class="form-row">
+          <form-input
+            label="Last Name"
+            inputWidth="w-100"
+            formControlName="lastName"
+            placeholder="Enter your last name" />
+        </div>
+
+        <div class="form-row">
+          <form-input
+            label="Email Address"
+            inputWidth="w-100"
+            [required]="false"
+            labelFormat="user@example.com"
+            formControlName="email"
+            placeholder="your.email@example.com" />
+        </div>
+
+        <div class="form-row">
+          <form-input
+            label="Phone Number"
+            inputWidth="w-100"
+            type="tel"
+            pipeArg="FR"
+            labelFormat="xxx-xxxx-xxxx"
+            formControlName="phoneNumber"
+            placeholder="Enter phone number" />
+        </div>
+
+        <div class="form-row">
+          <form-input
+            label="Annual Salary"
+            inputWidth="w-100"
+            type="currency"
+            pipeArg="2"
+            formControlName="money"
+            withIcon="$"
+            placeholder="0.00" />
+        </div>
+
+        <!-- Address Section -->
+        <div class="address-section">
+          <h3>📍 Address Information</h3>
+          <user-address [formGroupParent]="form" [model]="model.address" />
+        </div>
+
+        <div class="submit-section">
+          <button type="submit" (click)="submit()" class="submit-btn">
+            🚀 Submit Form
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Sidebar with Information -->
+    <aside class="info-sidebar">
+      <!-- Error Display -->
+      <div class="error-section">
+        <h3>❌ Validation Errors</h3>
+        <app-error-list></app-error-list>
+
+        @if(apiError().length > 0) {
+          <div class="api-errors">
+            <h4>🔗 API Errors</h4>
+            @for(error of apiError(); track error.code) {
+              <div class="error-message">
+                <strong>{{ error.propertyName }}:</strong> {{ error.message }}
+                <span class="error-code">({{ error.code }})</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Form Value Display -->
+      <div class="value-section">
+        <h3>📊 Current Form Value</h3>
+        <pre class="form-value">{{ getFormValue() | json }}</pre>
+      </div>
+
+      <!-- Pattern Information -->
+      <div class="patterns-section">
+        <h3>🔧 Patterns Demonstrated</h3>
+        <ul class="patterns-list">
+          <li>✅ Type-safe reactive forms</li>
+          <li>✅ Custom validators with typed errors</li>
+          <li>✅ Control Value Accessor</li>
+          <li>✅ Nested form groups</li>
+          <li>✅ Real-time formatting pipes</li>
+          <li>✅ Form state management</li>
+          <li>✅ Route guard protection</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
 </div>

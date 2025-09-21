@@ -1,2 +1,17 @@
-home page
-<router-outlet />
+<div class="container">
+  <header class="header">
+    <h1>{{ title }}</h1>
+    <p class="subtitle">Advanced Angular Reactive Forms Patterns & Best Practices</p>
+  </header>
+
+  <nav class="navigation">
+    <a routerLink="/form" class="nav-button">🚀 View Form Demo</a>
+    <a href="https://github.com/AdelSS04/angular-reactive-forms-showcase" target="_blank" class="nav-button secondary">
+      📚 View on GitHub
+    </a>
+  </nav>
+
+  <main class="main-content">
+    <router-outlet />
+  </main>
+</div>

@@ -16,17 +16,17 @@ export interface FormControlAction {
 /**
  * Utility class for extracting and collecting form validation errors.
  * Implements a visitor pattern to process form controls and gather their errors.
- *
+ * 
  * @example
  * ```typescript
  * const errorCollector = new FormErrorCollector(
  *   new Map<string, FormErrorWithKey>(),
  *   true // Only collect errors from touched controls
  * );
- *
+ * 
  * // Process a form control
  * errorCollector.action('email', emailControl);
- *
+ * 
  * // Access collected errors
  * const errors = errorCollector.errors;
  * ```
@@ -50,13 +50,13 @@ export class FormErrorCollector implements FormControlAction {
   public action(key: string, control: AbstractControl): void {
     // Skip untouched controls if configured to do so
     if (this.touchedControlsOnly && control.untouched) return;
-
+    
     const controlErrors: ValidationErrors | null = control.errors;
     if (controlErrors != null) {
       Object.entries(controlErrors).forEach(
         ([errorKey, error]: [string, FormError]) => {
           console.warn("Form validation error detected:", { key, errorKey, error });
-
+          
           this.errors.set(key, {
             errorKey,
             message: error.message,
